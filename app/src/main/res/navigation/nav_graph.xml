@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/homepageFragment">
+
+    <fragment
+        android:id="@+id/coinListFragment"
+        android:name="com.example.cryptotracker.presentation.coinList.CoinListFragment"
+        android:label="CoinListFragment" >
+        <action
+            android:id="@+id/action_coinListFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment" />
+        <action
+            android:id="@+id/action_coinListFragment_to_coinComparisonFragment"
+            app:destination="@id/coinComparisonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/coinDetailFragment"
+        android:name="com.example.cryptotracker.presentation.coinDetail.CoinDetailFragment"
+        android:label="CoinDetailFragment" >
+        <argument
+            android:name="coin"
+            app:argType="com.example.cryptotracker.presentation.common.DetailedCoinViewState" />
+    </fragment>
+    <fragment
+        android:id="@+id/coinComparisonFragment"
+        android:name="com.example.cryptotracker.presentation.coinComparison.CoinComparisonFragment"
+        android:label="CoinComparisonFragment" >
+        <action
+            android:id="@+id/action_coinComparisonFragment_to_selectCoinFragment"
+            app:destination="@id/selectCoinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectCoinFragment"
+        android:name="com.example.cryptotracker.presentation.coinSelect.SelectCoinFragment"
+        android:label="SelectCoinFragment" />
+    <fragment
+        android:id="@+id/homepageFragment"
+        android:name="com.example.cryptotracker.presentation.homepage.HomepageFragment"
+        android:label="HomepageFragment" />
+</navigation>

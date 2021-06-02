@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/buttonCompare"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        layout="@layout/item_homepage_feature"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonConvert"/>
+
+    <include
+        android:id="@+id/buttonConvert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        layout="@layout/item_homepage_feature"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toEndOf="@id/buttonCompare"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <include
+        android:id="@+id/titleTopCoins"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        layout="@layout/item_title"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonCompare"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTopCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTopCoins"
+        app:layout_constraintBottom_toTopOf="@id/titleTrendingCoins"/>
+
+    <include
+        android:id="@+id/titleTrendingCoins"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        layout="@layout/item_title"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvTopCoins"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTrendingCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTrendingCoins"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

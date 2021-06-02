@@ -1,0 +1,48 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.CryptoTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/dark</item>
+        <item name="colorPrimaryVariant">@color/blue_dark</item>
+        <item name="colorOnPrimary">@color/blue</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/grey_dark</item>
+        <item name="colorSecondaryVariant">@color/grey_light</item>
+        <item name="colorOnSecondary">@color/grey_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="colorSurface">@color/dark</item> <!-- BottomBar -->
+        <item name="android:colorBackground">@color/dark</item>
+        <item name="android:textColor">@color/grey_light</item>
+        <item name="android:fontFamily">@font/acrom</item>
+    </style>
+
+    <style name="DialogCustomTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+
+    <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:backgroundTint">@color/grey_light</item>
+        <item name="android:textColor">@color/dark</item>
+        <item name="android:textAppearance">@style/TextAppearanceStyle</item>
+    </style>
+
+    <style name="TextAppearanceStyle" parent="TextAppearance.AppCompat">
+        <item name="fontFamily">@font/acrom_bold</item>
+    </style>
+
+    <style name="ActionBarThemeOverlay">
+        <item name="android:textColorPrimary">@color/grey_light</item>
+        <item name="colorControlNormal">@color/grey_light</item>
+        <item name="colorControlHighlight">@color/grey_light</item>
+        <item name="android:textColorHint">@color/grey_light</item>
+    </style>
+
+</resources>

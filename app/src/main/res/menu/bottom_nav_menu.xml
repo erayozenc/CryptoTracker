@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/homepageFragment"
+        android:title="Homepage"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/coinListFragment"
+        android:title="Listing"
+        android:icon="@drawable/ic_list"/>
+
+    <item android:id="@+id/coinComparisonFragment"
+        android:title="Comparison"
+        android:icon="@drawable/ic_comparison"/>
+
+</menu>

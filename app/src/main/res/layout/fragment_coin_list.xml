@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:singleLine="true"
+            android:layout_marginStart="8dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                style="@style/Chip.Choice"
+                android:text="Price" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Chip.Choice"
+                android:text="24h % Change" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipCap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Chip.Choice"
+                android:text="Cap" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Chip.Choice"
+                android:text="Volume" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCoin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_listing_coin"/>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+
+        <TextView
+            android:id="@+id/tvCoinName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Ethereum" />
+
+        <TextView
+            android:id="@+id/tvCoinPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/acrom_bold"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tvCoinName"
+            app:layout_constraintTop_toBottomOf="@+id/tvCoinName"
+            tools:text="$3,374,65" />
+
+        <TextView
+            android:id="@+id/tv24hChangePercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/acrom_bold"
+            android:textColor="@color/green"
+            android:textSize="24sp"
+            app:drawableStartCompat="@drawable/ic_high_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/tvCoinPrice"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toTopOf="@id/tvCoinName"
+            tools:text="1.45%" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chartCoin"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="32sp"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tvCoinPrice" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chartCoin">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOneDay"
+                style="@style/Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1D" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSevenDay"
+                style="@style/Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7D" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOneMonth"
+                style="@style/Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1M" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipThreeMonth"
+                style="@style/Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3M" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOneYear"
+                style="@style/Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1Y" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:padding="16dp"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/chipGroup"
+            android:background="@color/grey_dark" />
+
+        <TextView
+            android:id="@+id/tvTitleMarketData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/acrom_bold"
+            android:text="Market Data"
+            android:textSize="24sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/line"/>
+
+        <TextView
+            android:id="@+id/tvMarketCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_dark"
+            android:text="Market Cap"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvTitleMarketData"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleMarketData"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvMarketCapValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_light"
+            app:layout_constraintStart_toStartOf="@id/tvMarketCap"
+            app:layout_constraintTop_toBottomOf="@id/tvMarketCap"
+            tools:text="$60.11B"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvMarketCapRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/green"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@id/tvMarketCapValue"
+            app:layout_constraintTop_toTopOf="@id/tvMarketCapValue"
+            tools:text="+0.62%"
+            android:fontFamily="@font/acrom_bold"/>
+
+
+        <TextView
+            android:id="@+id/tvLow24h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_dark"
+            android:text="Low 24H"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvMarketCapValue"
+            app:layout_constraintTop_toBottomOf="@id/tvMarketCapValue"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvLow24hValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_light"
+            app:layout_constraintStart_toStartOf="@id/tvLow24h"
+            app:layout_constraintTop_toBottomOf="@id/tvLow24h"
+            tools:text="$3,374,65.00B"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvHigh24h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_dark"
+            android:text="High 24H"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvHigh24hValue"
+            app:layout_constraintTop_toBottomOf="@id/tvMarketCapValue"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvHigh24hValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_light"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/tvLow24h"
+            tools:text="$3,374,65.00B"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvVolume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_dark"
+            android:text="Total Volume"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvLow24hValue"
+            app:layout_constraintTop_toBottomOf="@id/tvLow24hValue"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvVolumeValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_light"
+            app:layout_constraintStart_toStartOf="@id/tvVolume"
+            app:layout_constraintTop_toBottomOf="@id/tvVolume"
+            tools:text="$3,374,65.00B"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvSupply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_dark"
+            android:text="Total Supply"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/tvHigh24h"
+            app:layout_constraintTop_toBottomOf="@id/tvHigh24hValue"
+            android:fontFamily="@font/acrom_bold"/>
+
+        <TextView
+            android:id="@+id/tvSupplyValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/grey_light"
+            app:layout_constraintStart_toStartOf="@id/tvSupply"
+            app:layout_constraintTop_toBottomOf="@id/tvSupply"
+            tools:text="$3,374,65.00B"
+            android:fontFamily="@font/acrom_bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
