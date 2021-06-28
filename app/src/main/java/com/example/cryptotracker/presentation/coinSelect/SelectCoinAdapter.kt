@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptotracker.databinding.ItemSelectingCoinBinding
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 
 class SelectCoinAdapter(private val listener: OnItemClickListener) : RecyclerView.Adapter<SelectCoinAdapter.SelectCoinViewHolder>() {
 
@@ -22,7 +22,7 @@ class SelectCoinAdapter(private val listener: OnItemClickListener) : RecyclerVie
             }
         }
 
-        fun bind(viewState: DetailedCoinViewState) {
+        fun bind(viewState: CoinViewState) {
             binding.apply {
                 Glide.with(ivIcon).load(viewState.image).into(ivIcon)
                 tvName.text = viewState.name
@@ -31,12 +31,12 @@ class SelectCoinAdapter(private val listener: OnItemClickListener) : RecyclerVie
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<DetailedCoinViewState>(){
-        override fun areItemsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<CoinViewState>(){
+        override fun areItemsTheSame(oldItem: CoinViewState, newItem: CoinViewState): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState): Boolean {
+        override fun areContentsTheSame(oldItem: CoinViewState, newItem: CoinViewState): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
@@ -59,7 +59,7 @@ class SelectCoinAdapter(private val listener: OnItemClickListener) : RecyclerVie
     override fun getItemCount() = differ.currentList.size
 
     interface OnItemClickListener {
-        fun onItemClick(coin: DetailedCoinViewState)
+        fun onItemClick(coin: CoinViewState)
     }
 
 

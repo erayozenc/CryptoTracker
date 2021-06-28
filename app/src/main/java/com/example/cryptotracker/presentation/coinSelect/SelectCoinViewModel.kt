@@ -2,8 +2,8 @@ package com.example.cryptotracker.presentation.coinSelect
 
 import androidx.lifecycle.*
 import com.example.cryptotracker.domain.usecase.GetCoinListFromDatabase
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
-import com.example.cryptotracker.presentation.coinList.DetailedCoinViewStateMapper
+import com.example.cryptotracker.presentation.common.CoinViewState
+import com.example.cryptotracker.presentation.coinList.CoinViewStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SelectCoinViewModel @Inject constructor(
         private val getCoinListFromDatabase: GetCoinListFromDatabase,
-        private val mapper: DetailedCoinViewStateMapper
+        private val mapper: CoinViewStateMapper
 ) : ViewModel() {
 
     private val searchChannel = Channel<String>()
@@ -39,7 +39,7 @@ class SelectCoinViewModel @Inject constructor(
                 }
     }.asLiveData()
 
-    fun onCoinSelected(coin: DetailedCoinViewState) = viewModelScope.launch {
+    fun onCoinSelected(coin: CoinViewState) = viewModelScope.launch {
         selectCoinEventsChannel.send(SelectCoinEvent.NavigateBackWithSelectedCoin(coin))
     }
 
@@ -48,7 +48,7 @@ class SelectCoinViewModel @Inject constructor(
     }
 
     sealed class SelectCoinEvent {
-        data class NavigateBackWithSelectedCoin(val coin: DetailedCoinViewState): SelectCoinEvent()
+        data class NavigateBackWithSelectedCoin(val coin: CoinViewState): SelectCoinEvent()
     }
 
 }

@@ -1,20 +1,20 @@
 package com.example.cryptotracker.presentation.coinList
 
 import com.example.cryptotracker.R
-import com.example.cryptotracker.domain.model.DetailedCoinDomainModel
+import com.example.cryptotracker.domain.model.CoinDomainModel
 import com.example.cryptotracker.presentation.base.ViewStateMapper
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 import com.example.cryptotracker.presentation.util.toSplitChangeRate
 import com.example.cryptotracker.presentation.util.toSplitCoinPrice
 import com.github.mikephil.charting.data.Entry
 import java.util.*
 import javax.inject.Inject
 
-class DetailedCoinViewStateMapper @Inject constructor(
-): ViewStateMapper<DetailedCoinDomainModel, DetailedCoinViewState> {
+class CoinViewStateMapper @Inject constructor(
+): ViewStateMapper<CoinDomainModel, CoinViewState> {
 
-    override fun map(domainModel: DetailedCoinDomainModel): DetailedCoinViewState =
-        DetailedCoinViewState(
+    override fun map(domainModel: CoinDomainModel): CoinViewState =
+        CoinViewState(
             changePercent = domainModel.changePercent.toSplitChangeRate(),
             marketCap = domainModel.marketCap.toString(),
             maxSupply = domainModel.maxSupply.toString(),
@@ -30,10 +30,11 @@ class DetailedCoinViewStateMapper @Inject constructor(
             color = if (domainModel.changePercent < 0) R.color.red else R.color.green,
             highestPrice24h = domainModel.highest24h.toString().toSplitCoinPrice(),
             lowestPrice24h = domainModel.lowest24h.toString().toSplitCoinPrice(),
-            sparkLineEntries = domainModel.sparklinePrices.mapIndexed { index, d -> Entry(index.toFloat(), d.toFloat()) }
+            sparkLineEntries = domainModel.sparklinePrices.mapIndexed { index, d -> Entry(index.toFloat(), d.toFloat()) },
+            isPriceIncreasing = domainModel.changePercent > 0
         )
 
-    override fun mapList(domainList: List<DetailedCoinDomainModel>): List<DetailedCoinViewState> {
+    override fun mapList(domainList: List<CoinDomainModel>): List<CoinViewState> {
         return domainList.map {
             map(it)
         }

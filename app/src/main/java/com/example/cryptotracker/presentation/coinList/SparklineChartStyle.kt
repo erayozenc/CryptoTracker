@@ -28,7 +28,7 @@ class SparklineChartStyle @Inject constructor(
             position = XAxis.XAxisPosition.BOTTOM
 
             typeface = ResourcesCompat.getFont(context, R.font.acrom)
-            textColor = ContextCompat.getColor(context, R.color.dark)
+            textColor = ContextCompat.getColor(context, R.color.black)
         }
 
         setTouchEnabled(true)

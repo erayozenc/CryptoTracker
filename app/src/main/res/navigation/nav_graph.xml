@@ -20,7 +20,7 @@
         android:label="CoinDetailFragment" >
         <argument
             android:name="coin"
-            app:argType="com.example.cryptotracker.presentation.common.DetailedCoinViewState" />
+            app:argType="com.example.cryptotracker.presentation.common.CoinViewState" />
     </fragment>
     <fragment
         android:id="@+id/coinComparisonFragment"
@@ -37,5 +37,9 @@
     <fragment
         android:id="@+id/homepageFragment"
         android:name="com.example.cryptotracker.presentation.homepage.HomepageFragment"
-        android:label="HomepageFragment" />
+        android:label="HomepageFragment" >
+        <action
+            android:id="@+id/action_homepageFragment_to_coinDetailFragment"
+            app:destination="@id/coinDetailFragment" />
+    </fragment>
 </navigation>

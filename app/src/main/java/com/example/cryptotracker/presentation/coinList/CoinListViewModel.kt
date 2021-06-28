@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.example.cryptotracker.domain.Resource
 import com.example.cryptotracker.domain.usecase.FetchCoinList
 import com.example.cryptotracker.presentation.base.BaseViewModel
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
     private val fetchCoinList: FetchCoinList,
-    private val mapper : DetailedCoinViewStateMapper
+    private val mapper : CoinViewStateMapper
 ) : BaseViewModel() {
 
     private val coinsEventChannel = Channel<CoinsEvent>()
@@ -55,7 +55,7 @@ class CoinListViewModel @Inject constructor(
         onRankSort()
     }
 
-    fun onCoinSelected(coin: DetailedCoinViewState) = viewModelScope.launch {
+    fun onCoinSelected(coin: CoinViewState) = viewModelScope.launch {
         coinsEventChannel.send(CoinsEvent.NavigateDetailScreen(coin))
     }
 
@@ -80,7 +80,7 @@ class CoinListViewModel @Inject constructor(
     }
 
     sealed class CoinsEvent {
-        data class NavigateDetailScreen(val coin: DetailedCoinViewState): CoinsEvent()
+        data class NavigateDetailScreen(val coin: CoinViewState): CoinsEvent()
     }
 
     sealed class SortEvent {

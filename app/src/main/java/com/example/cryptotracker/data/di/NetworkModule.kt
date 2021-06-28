@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.viewbinding.BuildConfig
 import com.example.cryptotracker.data.local.datastore.AppPreferences
 import com.example.cryptotracker.data.mapper.CoinMapper
-import com.example.cryptotracker.data.mapper.DetailedCoinMapper
 import com.example.cryptotracker.data.mapper.CoinMarketChartMapper
 import com.example.cryptotracker.data.network.service.ApiService
 import com.example.cryptotracker.data.network.NetworkConstant
@@ -70,10 +69,6 @@ object NetworkModule {
     fun provideCoinListRemoteDataSource(
         apiService: ApiService
     ) = CoinListRemoteDataSource(apiService)
-
-    @Provides
-    @Singleton
-    fun provideDetailedCoinMapper() = DetailedCoinMapper()
 
     @Provides
     @Singleton

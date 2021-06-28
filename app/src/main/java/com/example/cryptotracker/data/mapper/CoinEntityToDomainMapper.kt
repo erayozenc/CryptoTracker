@@ -2,12 +2,12 @@ package com.example.cryptotracker.data.mapper
 
 import com.example.cryptotracker.data.DataMapper
 import com.example.cryptotracker.data.local.model.CoinEntity
-import com.example.cryptotracker.domain.model.DetailedCoinDomainModel
+import com.example.cryptotracker.domain.model.CoinDomainModel
 
-class CoinEntityToDomainMapper : DataMapper<CoinEntity, DetailedCoinDomainModel> {
+class CoinEntityToDomainMapper : DataMapper<CoinEntity, CoinDomainModel> {
 
     override fun map(dto: CoinEntity) =
-            DetailedCoinDomainModel(
+            CoinDomainModel(
                     id = dto.id,
                     changePercent = 0.0,
                     marketCap = 0.0,
@@ -24,7 +24,7 @@ class CoinEntityToDomainMapper : DataMapper<CoinEntity, DetailedCoinDomainModel>
                     sparklinePrices = listOf()
             )
 
-    override fun mapList(dataList: List<CoinEntity>): List<DetailedCoinDomainModel> {
+    override fun mapList(dataList: List<CoinEntity>): List<CoinDomainModel> {
         return dataList.map { map(it) }
     }
 }

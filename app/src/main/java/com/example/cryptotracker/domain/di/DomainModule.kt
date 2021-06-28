@@ -12,7 +12,7 @@ import com.example.cryptotracker.domain.repository.CoinDetailRepository
 import com.example.cryptotracker.domain.repository.CoinListRepository
 import com.example.cryptotracker.domain.repository.TrendingCoinsRepository
 import com.example.cryptotracker.domain.usecase.*
-import com.example.cryptotracker.presentation.coinList.DetailedCoinViewStateMapper
+import com.example.cryptotracker.presentation.coinList.CoinViewStateMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +29,7 @@ object DomainModule {
     fun provideCoinListRepository(
             remoteDataSource: CoinListRemoteDataSource,
             dataSource: CoinListDataSource,
-            mapper : DetailedCoinMapper,
+            mapper : CoinMapper,
             entityMapper: CoinEntityMapper,
             entityToDomainMapper: CoinEntityToDomainMapper
     ) : CoinListRepository {
@@ -56,7 +56,7 @@ object DomainModule {
 
     @Provides
     @Singleton
-    fun provideCoinViewStateMapper() = DetailedCoinViewStateMapper()
+    fun provideCoinViewStateMapper() = CoinViewStateMapper()
 
     @Provides
     @Singleton

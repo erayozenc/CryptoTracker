@@ -12,6 +12,7 @@ class TrendingCoinsRemoteDataSource @Inject constructor(
 ) : BaseRemoteDataSource() {
 
     suspend fun getTrendingCoins(): ApiResult<TrendingCoinsResponse> = safeApiCall {
+        println("1")
         apiService.getData(ApiName.COINS_TRENDING).toModel(TrendingCoinsResponse::class.java)
     }
 

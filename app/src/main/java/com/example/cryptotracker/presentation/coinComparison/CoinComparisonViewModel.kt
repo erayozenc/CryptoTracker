@@ -5,8 +5,8 @@ import com.example.cryptotracker.domain.Resource
 import com.example.cryptotracker.domain.usecase.FetchCoinMarketChart
 import com.example.cryptotracker.domain.usecase.GetCoinFromDatabase
 import com.example.cryptotracker.presentation.base.BaseViewModel
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
-import com.example.cryptotracker.presentation.coinList.DetailedCoinViewStateMapper
+import com.example.cryptotracker.presentation.common.CoinViewState
+import com.example.cryptotracker.presentation.coinList.CoinViewStateMapper
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,7 @@ import javax.inject.Inject
 class CoinComparisonViewModel @Inject constructor(
     private val fetchCoinMarketChart: FetchCoinMarketChart,
     private val getCoinFromDatabase: GetCoinFromDatabase,
-    private val mapper: DetailedCoinViewStateMapper
+    private val mapper: CoinViewStateMapper
 ) : BaseViewModel() {
 
     companion object {
@@ -133,7 +133,7 @@ class CoinComparisonViewModel @Inject constructor(
         comparisonEventChannel.send(ComparisonEvent.NavigateToChangeSelectedCoin(selectedIndex))
     }
 
-    fun onAfterSelectCoin(coin: DetailedCoinViewState) = viewModelScope.launch {
+    fun onAfterSelectCoin(coin: CoinViewState) = viewModelScope.launch {
         coinIds = if (selectedIndex == 1) Pair(coin.id, coinIds.second) else  Pair(coinIds.first, coin.id)
         coinIdsChannel.send(Triple(coinIds.first, coinIds.second, days))
         selectCoinChannel.send(Pair(coinIds.first, coinIds.second))

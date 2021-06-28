@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptotracker.R
 import com.example.cryptotracker.databinding.FragmentCoinListBinding
 import com.example.cryptotracker.presentation.base.BaseFragment
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 import com.example.cryptotracker.presentation.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -84,7 +84,7 @@ class CoinListFragment : BaseFragment<FragmentCoinListBinding>(), CoinListAdapte
 
     }
 
-    override fun onItemClick(coin: DetailedCoinViewState) {
+    override fun onItemClick(coin: CoinViewState) {
         viewModel.onCoinSelected(coin)
     }
 }

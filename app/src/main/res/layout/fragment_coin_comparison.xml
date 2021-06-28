@@ -91,7 +91,7 @@
         app:tabSelectedTextColor="@color/grey_light"
         app:tabGravity="fill"
         app:tabInlineLabel="true"
-        app:tabIndicatorColor="@color/blue"
+        app:tabIndicatorColor="@color/dark_blue"
         app:tabMode="fixed"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/guideline"

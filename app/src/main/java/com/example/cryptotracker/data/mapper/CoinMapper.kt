@@ -5,19 +5,33 @@ import com.example.cryptotracker.data.network.model.CoinDataModel
 import com.example.cryptotracker.domain.model.CoinDomainModel
 import javax.inject.Inject
 
-class CoinMapper @Inject constructor() : DataMapper<CoinDataModel, CoinDomainModel> {
-    override fun map(dto: CoinDataModel) =
-            CoinDomainModel(
-                id = dto.id.orEmpty(),
-                name = dto.name.orEmpty(),
-                symbol = dto.symbol.orEmpty(),
-                image = dto.small.orEmpty(),
-                score = dto.score ?: 0,
-                priceBtc = dto.price_btc ?: 0.0
-            )
+class CoinMapper @Inject constructor()
+    : DataMapper<CoinDataModel, CoinDomainModel> {
+
+    override fun map(dto: CoinDataModel): CoinDomainModel =
+        CoinDomainModel(
+            id = dto.id.orEmpty(),
+            changePercent = dto.price_change_percentage_24h.orZero(),
+            marketCap = dto.market_cap.orZero(),
+            maxSupply = dto.max_supply.orZero(),
+            name = dto.name.orEmpty(),
+            image = dto.image.orEmpty(),
+            price = dto.current_price.orZero(),
+            rank = dto.market_cap_rank.orZero(),
+            supply = dto.total_supply.orZero(),
+            symbol = dto.symbol.orEmpty(),
+            volume = dto.total_volume.orZero(),
+            highest24h = dto.high_24h.orZero(),
+            lowest24h = dto.low_24h.orZero(),
+            sparklinePrices = dto.sparkline_in_7d.price
+        )
 
     override fun mapList(dataList: List<CoinDataModel>): List<CoinDomainModel> {
         return dataList.map { map(it) }
     }
 
+
+    fun Double?.orZero(): Double = this ?: 0.0
+    fun Long?.orZero(): Long = this ?: 0
+    fun Int?.orZero(): Int = this ?: 0
 }

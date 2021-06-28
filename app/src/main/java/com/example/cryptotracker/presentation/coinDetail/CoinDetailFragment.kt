@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.cryptotracker.databinding.FragmentCoinDetailBinding
 import com.example.cryptotracker.presentation.base.BaseFragment
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 import com.example.cryptotracker.presentation.util.snackbar
 import com.github.mikephil.charting.data.LineData
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +22,7 @@ class CoinDetailFragment : BaseFragment<FragmentCoinDetailBinding>() {
 
     private val viewModel by viewModels<CoinDetailViewModel>()
     private val args: CoinDetailFragmentArgs by navArgs()
-    private lateinit var coin: DetailedCoinViewState
+    private lateinit var coin: CoinViewState
 
     @Inject
     lateinit var chartStyle : DetailChartStyle
@@ -79,8 +79,9 @@ class CoinDetailFragment : BaseFragment<FragmentCoinDetailBinding>() {
         viewModel.pricePair.observe(viewLifecycleOwner) { minPrice ->
             chartStyle.styleChart(binding.chartCoin, minPrice)
         }
+
         viewModel.lineDataSet.observe(viewLifecycleOwner) { lineDataSet ->
-            chartStyle.styleLineDataSet(lineDataSet)
+            chartStyle.styleLineDataSet(lineDataSet, coin.isPriceIncreasing)
             binding.chartCoin.apply {
                 data = LineData(lineDataSet)
                 invalidate()

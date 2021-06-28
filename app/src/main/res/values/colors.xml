@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_light">#848cfc</color>
-    <color name="blue">#444cfc</color>
-    <color name="blue_dark">#1c1444</color>
+    <color name="dark">#393E46</color>
+    <color name="dark_blue">#543864</color>
+    <color name="light">#AD62AA</color>
     <color name="grey_dark">#6e6e75</color>
     <color name="grey_light">#cacada</color>
     <color name="green">#3fb853</color>
     <color name="red">#e64949</color>
-    <color name="dark">#191127</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#000000</color>
     <color name="gold">#eeb501</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

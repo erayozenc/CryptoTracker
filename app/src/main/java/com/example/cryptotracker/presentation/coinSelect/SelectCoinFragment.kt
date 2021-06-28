@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptotracker.R
 import com.example.cryptotracker.databinding.FragmentSelectCoinBinding
 import com.example.cryptotracker.presentation.base.BaseFragment
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 import com.example.cryptotracker.presentation.util.onQueryTextChanged
 import com.example.cryptotracker.presentation.util.setBackStackData
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +70,7 @@ class SelectCoinFragment : BaseFragment<FragmentSelectCoinBinding>(), SelectCoin
         }
     }
 
-    override fun onItemClick(coin: DetailedCoinViewState) {
+    override fun onItemClick(coin: CoinViewState) {
         viewModel.onCoinSelected(coin)
     }
 

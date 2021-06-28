@@ -35,7 +35,7 @@ class DetailChartStyle @Inject constructor(
             position = XAxis.XAxisPosition.BOTTOM
 
             typeface = ResourcesCompat.getFont(context, R.font.acrom)
-            textColor = ContextCompat.getColor(context, R.color.dark)
+            textColor = ContextCompat.getColor(context, R.color.black)
         }
 
         setTouchEnabled(true)
@@ -47,9 +47,10 @@ class DetailChartStyle @Inject constructor(
         legend.isEnabled = false
     }
 
-    fun styleLineDataSet(lineDataSet: LineDataSet) = lineDataSet.apply {
-        color = ContextCompat.getColor(context, R.color.green)
-        valueTextColor = ContextCompat.getColor(context, R.color.green)
+    fun styleLineDataSet(lineDataSet: LineDataSet, isPriceIncreasing: Boolean) = lineDataSet.apply {
+        val colorDrawable = if (isPriceIncreasing) R.color.green else R.color.red
+        color = ContextCompat.getColor(context, colorDrawable)
+        valueTextColor = ContextCompat.getColor(context, colorDrawable)
         setDrawValues(false)
         lineWidth = 3f
         isHighlightEnabled = true
@@ -58,7 +59,13 @@ class DetailChartStyle @Inject constructor(
         mode = LineDataSet.Mode.CUBIC_BEZIER
 
         setDrawFilled(true)
-        fillDrawable = ContextCompat.getDrawable(context, R.drawable.style_custom_chart_line_dataset)
+        fillDrawable = ContextCompat.getDrawable(
+                context,
+                if (isPriceIncreasing)
+                    R.drawable.style_increasing_custom_chart_line_dataset
+                else
+                    R.drawable.style_decreasing_custom_chart_line_dataset
+        )
     }
 
 

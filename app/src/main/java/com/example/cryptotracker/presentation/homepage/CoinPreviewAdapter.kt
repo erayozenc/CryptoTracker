@@ -1,6 +1,5 @@
 package com.example.cryptotracker.presentation.homepage
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.cryptotracker.databinding.ItemCoinPreviewBinding
 import com.example.cryptotracker.presentation.common.CoinViewState
 
-class CoinPreviewAdapter() : RecyclerView.Adapter<CoinPreviewAdapter.CoinPreviewViewHolder>() {
+class CoinPreviewAdapter(private val listener: OnItemClickListener) : RecyclerView.Adapter<CoinPreviewAdapter.CoinPreviewViewHolder>() {
 
     private val list: MutableList<CoinViewState> = mutableListOf()
 
@@ -18,6 +17,15 @@ class CoinPreviewAdapter() : RecyclerView.Adapter<CoinPreviewAdapter.CoinPreview
     }
 
     inner class CoinPreviewViewHolder(private val binding: ItemCoinPreviewBinding): RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    if (adapterPosition != RecyclerView.NO_POSITION)
+                        listener.onItemClick(list[adapterPosition])
+                }
+            }
+        }
 
         fun bind(viewState: CoinViewState) {
             binding.apply {
@@ -40,4 +48,8 @@ class CoinPreviewAdapter() : RecyclerView.Adapter<CoinPreviewAdapter.CoinPreview
     override fun onBindViewHolder(holder: CoinPreviewViewHolder, position: Int) = holder.bind(list[position])
 
     override fun getItemCount() = list.size
+
+    interface OnItemClickListener {
+        fun onItemClick(coin: CoinViewState)
+    }
 }

@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.CryptoTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/dark</item>
-        <item name="colorPrimaryVariant">@color/blue_dark</item>
-        <item name="colorOnPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/dark</item>
+        <item name="colorOnPrimary">@color/dark</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/grey_dark</item>
         <item name="colorSecondaryVariant">@color/grey_light</item>
@@ -12,8 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorSurface">@color/dark</item> <!-- BottomBar -->
-        <item name="android:colorBackground">@color/dark</item>
+        <item name="colorSurface">@color/black</item> <!-- BottomBar -->
+        <item name="android:colorBackground">@color/black</item>
         <item name="android:textColor">@color/grey_light</item>
         <item name="android:fontFamily">@font/acrom</item>
     </style>
@@ -29,9 +29,12 @@
 
 
     <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="android:backgroundTint">@color/grey_light</item>
-        <item name="android:textColor">@color/dark</item>
         <item name="android:textAppearance">@style/TextAppearanceStyle</item>
+        <item name="chipBackgroundColor">@color/chip_background_color_state</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="android:textColor">@color/chip_text_color_state</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="TextAppearanceStyle" parent="TextAppearance.AppCompat">

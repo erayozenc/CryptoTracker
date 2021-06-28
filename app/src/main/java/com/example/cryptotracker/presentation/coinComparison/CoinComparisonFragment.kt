@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.cryptotracker.R
 import com.example.cryptotracker.databinding.FragmentCoinComparisonBinding
 import com.example.cryptotracker.presentation.base.BaseFragment
-import com.example.cryptotracker.presentation.common.DetailedCoinViewState
+import com.example.cryptotracker.presentation.common.CoinViewState
 import com.example.cryptotracker.presentation.util.getBackStackData
 import com.example.cryptotracker.presentation.util.snackbar
 import com.github.mikephil.charting.data.LineData
@@ -59,7 +59,7 @@ class CoinComparisonFragment : BaseFragment<FragmentCoinComparisonBinding>() {
     override fun onResume() {
         super.onResume()
 
-        getBackStackData<DetailedCoinViewState>("selectedCoin") { coin ->
+        getBackStackData<CoinViewState>("selectedCoin") { coin ->
             if (coin != null)
                 viewModel.onAfterSelectCoin(coin)
         }

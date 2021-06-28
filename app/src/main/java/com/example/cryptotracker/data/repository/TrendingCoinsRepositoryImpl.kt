@@ -18,6 +18,7 @@ class TrendingCoinsRepositoryImpl @Inject constructor(
     override suspend fun getTrendingCoins(): Flow<Resource<List<CoinDomainModel>>> = flow {
         when(val result = remoteDataSource.getTrendingCoins()) {
             is ApiResult.Success -> {
+                println("12")
                 emit(Resource.Success(result.value.coins.map { mapper.map(it.item) }))
             }
             is ApiResult.Failure -> {

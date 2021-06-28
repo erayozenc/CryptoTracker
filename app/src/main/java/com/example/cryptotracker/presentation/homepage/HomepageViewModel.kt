@@ -6,10 +6,8 @@ import com.example.cryptotracker.domain.usecase.FetchCoinList
 import com.example.cryptotracker.domain.usecase.FetchCoinMarketChart
 import com.example.cryptotracker.domain.usecase.FetchTrendingCoins
 import com.example.cryptotracker.presentation.base.BaseViewModel
-import com.example.cryptotracker.presentation.coinList.CoinListViewModel
+import com.example.cryptotracker.presentation.coinList.CoinViewStateMapper
 import com.example.cryptotracker.presentation.common.CoinViewState
-import com.example.cryptotracker.presentation.common.CoinViewStateMapper
-import com.example.cryptotracker.presentation.common.DetailedToCoinViewStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -20,14 +18,16 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class HomepageViewModel @Inject constructor(
-    private val fetchTrendingCoins: FetchTrendingCoins,
-    private val mapper: CoinViewStateMapper,
-    private val fetchCoinMarketChart: FetchCoinMarketChart,
-    private val fetchCoinList: FetchCoinList,
-    private val detailedMapper: DetailedToCoinViewStateMapper
+        private val fetchTrendingCoins: FetchTrendingCoins,
+        private val mapper: CoinViewStateMapper,
+        private val fetchCoinMarketChart: FetchCoinMarketChart,
+        private val fetchCoinList: FetchCoinList,
 ): BaseViewModel() {
 
     private var currentBtcPrice = 0.0
+
+    private val homepageEventChannel = Channel<HomepageEvent>()
+    val homepageEvent = homepageEventChannel.receiveAsFlow()
 
     private val _trendingCoins : MutableLiveData<List<CoinViewState>> = MutableLiveData()
     val trendingCoins : LiveData<List<CoinViewState>> = _trendingCoins
@@ -53,14 +53,16 @@ class HomepageViewModel @Inject constructor(
         }
     }
 
+    fun onCoinSelected(coin: CoinViewState) = viewModelScope.launch {
+        homepageEventChannel.send(HomepageEvent.NavigateDetailScreen(coin))
+    }
+
     private suspend fun getTrendingCoins() = fetchTrendingCoins
             .execute()
             .map { resource ->
+                println("123")
                 if (resource is Resource.Success) {
-                    resource.data.map {
-                        println("trending")
-                        it.priceBtc *= currentBtcPrice }
-                    mapper.mapList(resource.data.sortedBy { it.score })
+                    mapper.mapList(resource.data)
                 } else {
                     val error = resource as Resource.Error
                     throw Error(error.message)
@@ -75,9 +77,7 @@ class HomepageViewModel @Inject constructor(
             .execute()
             .map { resource ->
                 if (resource is Resource.Success) {
-                    println("top")
-                    detailedMapper.mapList(resource.data.sortedBy {
-                        println("top")
+                    mapper.mapList(resource.data.sortedBy {
                         it.rank
                     }.subList(0, 10))
                 } else {
@@ -89,5 +89,9 @@ class HomepageViewModel @Inject constructor(
                 _snackbar.postValue(cause.message)
                 println(cause.message)
             }
+
+    sealed class HomepageEvent {
+        data class NavigateDetailScreen(val coin: CoinViewState): HomepageEvent()
+    }
 
 }

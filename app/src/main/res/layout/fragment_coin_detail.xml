@@ -72,6 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:paddingVertical="4dp"
+            app:singleSelection="true"
+            app:selectionRequired="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chartCoin">
@@ -79,6 +81,8 @@
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipOneDay"
                 style="@style/Chip.Choice"
+                android:checkable="true"
+                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1D" />
@@ -259,6 +263,8 @@
             android:textColor="@color/grey_light"
             app:layout_constraintStart_toStartOf="@id/tvSupply"
             app:layout_constraintTop_toBottomOf="@id/tvSupply"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
             tools:text="$3,374,65.00B"
             android:fontFamily="@font/acrom_bold"/>
 
