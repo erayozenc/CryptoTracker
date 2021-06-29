@@ -108,5 +108,8 @@ dependencies {
 
     //MPChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0-alpha01"
 }
 

@@ -1,7 +1,8 @@
 package com.example.cryptotracker.presentation.coinList
 
 import androidx.lifecycle.*
-import com.example.cryptotracker.domain.Resource
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.example.cryptotracker.domain.usecase.FetchCoinList
 import com.example.cryptotracker.presentation.base.BaseViewModel
 import com.example.cryptotracker.presentation.common.DetailedCoinViewState
@@ -10,7 +11,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.lang.Error
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -26,30 +26,20 @@ class CoinListViewModel @Inject constructor(
     private val sortEventChannel = Channel<SortEvent>()
     private val sortEvent = sortEventChannel.receiveAsFlow()
 
-    val coinList = sortEvent.flatMapLatest {event ->
+    val coinList = sortEvent.flatMapLatest { event ->
         fetchCoinList.execute()
-            .onStart { _progressBar.value = true }
-            .map { resource ->
-                if (resource is Resource.Success) {
-                    val dataModelList = when(event) {
-                        SortEvent.SortByRank -> { resource.data.sortedBy { it.rank } }
-                        SortEvent.SortByVolume -> { resource.data.sortedByDescending { it.volume } }
-                        SortEvent.SortByMarketCap -> { resource.data.sortedByDescending { it.marketCap } }
-                        SortEvent.SortByPercentChange -> { resource.data.sortedByDescending { it.changePercent } }
-                        SortEvent.SortByPrice -> { resource.data.sortedByDescending { it.price } }
-                    }
-                    mapper.mapList(dataModelList)
-                } else {
-                    val error = resource as Resource.Error
-                    throw Error(error.message)
-                }
+            .map { pagingData ->
+                /*val dataModelList = when(event) {
+                    SortEvent.SortByRank -> {  }
+                    SortEvent.SortByVolume -> { resource.data.sortedByDescending { it.volume } }
+                    SortEvent.SortByMarketCap -> { resource.data.sortedByDescending { it.marketCap } }
+                    SortEvent.SortByPercentChange -> { resource.data.sortedByDescending { it.changePercent } }
+                    SortEvent.SortByPrice -> { resource.data.sortedByDescending { it.price } }
+                }*/
+                pagingData.map { mapper.map(it) }
             }
-            .onCompletion { _progressBar.value = false }
-            .catch { cause: Throwable ->
-                _snackbar.value = cause.message
-                println(cause.message)
-            }
-    }.asLiveData()
+            .cachedIn(viewModelScope)
+    }
 
     init {
         onRankSort()

@@ -15,7 +15,9 @@ import com.example.cryptotracker.presentation.common.DetailedCoinViewState
 import com.example.cryptotracker.presentation.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
@@ -23,6 +25,8 @@ class CoinListFragment : BaseFragment<FragmentCoinListBinding>(), CoinListAdapte
 
     private lateinit var adapter : CoinListAdapter
     private val viewModel by viewModels<CoinListViewModel>()
+
+    private var job: Job? = null
 
     override fun createViewBinding(
         inflater: LayoutInflater,
@@ -33,10 +37,20 @@ class CoinListFragment : BaseFragment<FragmentCoinListBinding>(), CoinListAdapte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        fetchCoinList()
         setupListeners()
         setupObservers()
         setupEventListener()
 
+    }
+
+    private fun fetchCoinList() {
+        job?.cancel()
+        job = lifecycleScope.launch {
+            viewModel.coinList.collect {
+                adapter.submitData(it)
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -55,10 +69,6 @@ class CoinListFragment : BaseFragment<FragmentCoinListBinding>(), CoinListAdapte
     }
 
     private fun setupObservers() {
-        viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
-            adapter.differ.submitList(coinList)
-        }
-
         viewModel.progressBar.observe(viewLifecycleOwner) { isProgress ->
             showDialog(isProgress)
         }

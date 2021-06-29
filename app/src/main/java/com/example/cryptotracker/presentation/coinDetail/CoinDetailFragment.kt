@@ -80,7 +80,7 @@ class CoinDetailFragment : BaseFragment<FragmentCoinDetailBinding>() {
             chartStyle.styleChart(binding.chartCoin, minPrice)
         }
         viewModel.lineDataSet.observe(viewLifecycleOwner) { lineDataSet ->
-            chartStyle.styleLineDataSet(lineDataSet)
+            chartStyle.styleLineDataSet(lineDataSet, coin.isPriceIncreasing)
             binding.chartCoin.apply {
                 data = LineData(lineDataSet)
                 invalidate()

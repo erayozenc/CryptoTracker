@@ -3,6 +3,7 @@ package com.example.cryptotracker.presentation.coinList
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,18 +13,13 @@ import com.example.cryptotracker.presentation.common.DetailedCoinViewState
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
-class CoinListAdapter(private val listener: OnItemClickListener) : RecyclerView.Adapter<CoinListAdapter.CoinViewHolder>() {
+class CoinListAdapter(private val listener: OnItemClickListener)
+    : PagingDataAdapter<DetailedCoinViewState, CoinListAdapter.CoinViewHolder>(CoinComparator) {
 
-    inner class CoinViewHolder(private val binding: ItemListingCoinBinding, val context: Context) : RecyclerView.ViewHolder(binding.root) {
-
-        init {
-            binding.apply {
-                root.setOnClickListener {
-                    if (adapterPosition != RecyclerView.NO_POSITION)
-                        listener.onItemClick(differ.currentList[adapterPosition])
-                }
-            }
-        }
+    inner class CoinViewHolder(
+        private val binding: ItemListingCoinBinding,
+        val context: Context
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(viewState: DetailedCoinViewState) {
             binding.apply {
@@ -42,21 +38,13 @@ class CoinListAdapter(private val listener: OnItemClickListener) : RecyclerView.
                     data = LineData(lineDataSet)
                     invalidate()
                 }
+
+                root.setOnClickListener {
+                    listener.onItemClick(viewState)
+                }
             }
         }
     }
-
-    private val diffCallback = object : DiffUtil.ItemCallback<DetailedCoinViewState>(){
-        override fun areItemsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState): Boolean {
-            return oldItem.symbol == newItem.symbol
-        }
-
-        override fun areContentsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
-    }
-
-    val differ = AsyncListDiffer(this, diffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinViewHolder =
         CoinViewHolder(
@@ -68,12 +56,21 @@ class CoinListAdapter(private val listener: OnItemClickListener) : RecyclerView.
         )
 
     override fun onBindViewHolder(holder: CoinViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        val coin = getItem(position)
+        coin?.let {
+            holder.bind(it)
+        }
     }
-
-    override fun getItemCount() = differ.currentList.size
 
     interface OnItemClickListener {
         fun onItemClick(coin: DetailedCoinViewState)
+    }
+
+    object CoinComparator : DiffUtil.ItemCallback<DetailedCoinViewState>() {
+        override fun areItemsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState) =
+            oldItem.symbol == newItem.symbol
+
+        override fun areContentsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState) =
+            oldItem.hashCode() == newItem.hashCode()
     }
 }
