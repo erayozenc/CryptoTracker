@@ -1,4 +1,4 @@
-package com.example.cryptotracker.presentation.coinList
+package com.example.cryptotracker.presentation.coinMarkets
 
 import com.example.cryptotracker.R
 import com.example.cryptotracker.domain.model.DetailedCoinDomainModel

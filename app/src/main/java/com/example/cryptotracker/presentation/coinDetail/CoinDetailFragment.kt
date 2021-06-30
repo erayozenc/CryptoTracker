@@ -41,10 +41,7 @@ class CoinDetailFragment : BaseFragment<FragmentCoinDetailBinding>() {
         setupListeners()
         setupObservers()
 
-
         viewModel.onStart(coin.id)
-
-
     }
 
     private fun initViews() {

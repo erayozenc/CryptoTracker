@@ -1,24 +1,30 @@
 package com.example.cryptotracker.presentation.coinSelect
 
 import androidx.lifecycle.*
-import com.example.cryptotracker.domain.usecase.GetCoinListFromDatabase
+import androidx.paging.cachedIn
+import androidx.paging.map
+import com.example.cryptotracker.domain.Resource
+import com.example.cryptotracker.domain.usecase.FetchCoinList
+import com.example.cryptotracker.domain.usecase.FetchCoinMarkets
+import com.example.cryptotracker.presentation.base.BaseViewModel
+import com.example.cryptotracker.presentation.coinMarkets.DetailedCoinViewStateMapper
 import com.example.cryptotracker.presentation.common.DetailedCoinViewState
-import com.example.cryptotracker.presentation.coinList.DetailedCoinViewStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.lang.Error
 import javax.inject.Inject
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class SelectCoinViewModel @Inject constructor(
-        private val getCoinListFromDatabase: GetCoinListFromDatabase,
+        private val fetchCoinMarkets: FetchCoinMarkets,
         private val mapper: DetailedCoinViewStateMapper
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val searchChannel = Channel<String>()
     private val searchFlow = searchChannel.receiveAsFlow()
@@ -30,14 +36,19 @@ class SelectCoinViewModel @Inject constructor(
         viewModelScope.launch { searchChannel.send("") }
     }
 
-    val coins = searchFlow.flatMapLatest {
-        getCoinListFromDatabase
-                .execute(it)
-                .debounce(100)
-                .map {domainModels ->
-                    mapper.mapList(domainModels)
-                }
-    }.asLiveData()
+    val coinList = searchFlow.flatMapLatest { event ->
+        fetchCoinMarkets.execute()
+            .map { pagingData ->
+                pagingData.map { mapper.map(it) }
+            }.cachedIn(viewModelScope)
+    }
+
+    suspend fun fetchCoinList() =
+        fetchCoinMarkets.execute()
+        .map { pagingData ->
+            pagingData.map { mapper.map(it) }
+        }.cachedIn(viewModelScope)
+
 
     fun onCoinSelected(coin: DetailedCoinViewState) = viewModelScope.launch {
         selectCoinEventsChannel.send(SelectCoinEvent.NavigateBackWithSelectedCoin(coin))

@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -28,7 +29,7 @@ class SelectCoinFragment : BaseFragment<FragmentSelectCoinBinding>(), SelectCoin
     private lateinit var searchView: SearchView
 
     override fun createViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
-            FragmentSelectCoinBinding.inflate(inflater, container, false)
+        FragmentSelectCoinBinding.inflate(inflater, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +40,10 @@ class SelectCoinFragment : BaseFragment<FragmentSelectCoinBinding>(), SelectCoin
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
 
-        viewModel.coins.observe(viewLifecycleOwner) {
-            println(it)
-            adapter.differ.submitList(it)
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.fetchCoinList().collectLatest {
+                adapter.submitData(it)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

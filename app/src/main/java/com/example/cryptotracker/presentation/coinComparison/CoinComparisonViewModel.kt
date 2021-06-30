@@ -2,11 +2,11 @@ package com.example.cryptotracker.presentation.coinComparison
 
 import androidx.lifecycle.*
 import com.example.cryptotracker.domain.Resource
+import com.example.cryptotracker.domain.usecase.FetchCoin
 import com.example.cryptotracker.domain.usecase.FetchCoinMarketChart
-import com.example.cryptotracker.domain.usecase.GetCoinFromDatabase
 import com.example.cryptotracker.presentation.base.BaseViewModel
 import com.example.cryptotracker.presentation.common.DetailedCoinViewState
-import com.example.cryptotracker.presentation.coinList.DetailedCoinViewStateMapper
+import com.example.cryptotracker.presentation.common.CoinViewStateMapper
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 @FlowPreview
 class CoinComparisonViewModel @Inject constructor(
+    private val fetchCoin: FetchCoin,
     private val fetchCoinMarketChart: FetchCoinMarketChart,
-    private val getCoinFromDatabase: GetCoinFromDatabase,
-    private val mapper: DetailedCoinViewStateMapper
+    private val mapper: CoinViewStateMapper
 ) : BaseViewModel() {
 
     companion object {
@@ -49,70 +49,81 @@ class CoinComparisonViewModel @Inject constructor(
 
     val lineDataSets = coinIdsFlow.flatMapLatest {
         fetchLineDataSet(it.first, it.third, dataType)
-                .zip(fetchLineDataSet(it.second, it.third, dataType)) {first, second ->
-                    listOf(first, second)
-                }
+            .zip(fetchLineDataSet(it.second, it.third, dataType)) {first, second ->
+                listOf(first, second)
+            }
     }.asLiveData()
 
     val selectedCoins = selectCoinFlow.flatMapLatest {
-        getCoin(it.first)
-                .zip(getCoin(it.second)) {first, second ->
-                    listOf(first, second)
-                }
+        fetchCoin(it.first)
+            .zip(fetchCoin(it.second)) {first, second ->
+                listOf(first, second)
+            }
     }.asLiveData()
 
     private suspend fun fetchLineDataSet(coinId: String, days: String, dataType: DataType) =
-            fetchCoinMarketChart.execute(coinId, days, "daily")
-                    .onStart { LineDataSet(listOf(), CHART_LABEL) }
-                    .mapLatest { resource ->
-                        println("fetchLineDataSet")
-                        if (resource is Resource.Success) {
-                            println(resource.data)
-                            var i = 1f
-                            when(dataType) {
-                                DataType.PRICE -> {
-                                    LineDataSet(
-                                            resource.data.prices.map { pair ->
-                                                Entry(i++, pair.first.toFloat())
-                                            },
-                                            CHART_LABEL
-                                    )
-                                }
-                                DataType.MARKET_CAP -> {
-                                    LineDataSet(
-                                            resource.data.marketCaps.map { pair ->
-                                                Entry(i++, pair.first.toFloat())
-                                            },
-                                            CHART_LABEL
-                                    )
-                                }
-                                DataType.VOLUME -> {
-                                    LineDataSet(
-                                            resource.data.volumes.map { pair ->
-                                                Entry(i++, pair.first.toFloat())
-                                            },
-                                            CHART_LABEL
-                                    )
-                                }
-                            }
-                        } else {
-                            val error = resource as Resource.Error
-                            throw Error(error.message)
+        fetchCoinMarketChart.execute(coinId, days, "daily")
+            .onStart {
+                _progressBar.value = true
+                LineDataSet(listOf(), CHART_LABEL)
+            }
+            .mapLatest { resource ->
+                if (resource is Resource.Success) {
+                    println(resource.data)
+                    var i = 1f
+                    when(dataType) {
+                        DataType.PRICE -> {
+                            LineDataSet(
+                                resource.data.prices.map { pair ->
+                                    Entry(i++, pair.first.toFloat())
+                                },
+                                CHART_LABEL
+                            )
+                        }
+                        DataType.MARKET_CAP -> {
+                            LineDataSet(
+                                resource.data.marketCaps.map { pair ->
+                                    Entry(i++, pair.first.toFloat())
+                                },
+                                CHART_LABEL
+                            )
+                        }
+                        DataType.VOLUME -> {
+                            LineDataSet(
+                                resource.data.volumes.map { pair ->
+                                    Entry(i++, pair.first.toFloat())
+                                },
+                                CHART_LABEL
+                            )
                         }
                     }
-                    .catch { cause: Throwable ->
-                        _snackbar.postValue(cause.message)
-                        println(cause.message)
-                    }
+                } else {
+                    val error = resource as Resource.Error
+                    throw Error(error.message)
+                }
+            }
+            .onCompletion { _progressBar.value = false }
+            .catch { cause: Throwable ->
+                _snackbar.postValue(cause.message)
+                println(cause.message)
+            }
 
-
-    private fun getCoin(id: String) =
-            getCoinFromDatabase.execute(id)
-                    .map { domainModel ->
-                        println("getCoin")
-                        mapper.map(domainModel)
-                    }
-
+    private suspend fun fetchCoin(id: String) =
+        fetchCoin.execute(id)
+            .onStart { _progressBar.value = true }
+            .map { resource ->
+                if (resource is Resource.Success) {
+                    mapper.map(resource.data)
+                } else {
+                    val error = resource as Resource.Error
+                    throw Error(error.message)
+                }
+            }
+            .onCompletion { _progressBar.value = false }
+            .catch { cause: Throwable ->
+                _snackbar.value = cause.message
+                println(cause.message)
+            }
 
     fun onStart() = viewModelScope.launch(Dispatchers.IO) {
         launch {

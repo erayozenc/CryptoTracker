@@ -2,11 +2,10 @@ package com.example.cryptotracker.presentation.homepage
 
 import androidx.lifecycle.*
 import com.example.cryptotracker.domain.Resource
-import com.example.cryptotracker.domain.usecase.FetchCoinList
+import com.example.cryptotracker.domain.usecase.FetchCoinMarkets
 import com.example.cryptotracker.domain.usecase.FetchCoinMarketChart
 import com.example.cryptotracker.domain.usecase.FetchTrendingCoins
 import com.example.cryptotracker.presentation.base.BaseViewModel
-import com.example.cryptotracker.presentation.coinList.CoinListViewModel
 import com.example.cryptotracker.presentation.common.CoinViewState
 import com.example.cryptotracker.presentation.common.CoinViewStateMapper
 import com.example.cryptotracker.presentation.common.DetailedToCoinViewStateMapper
@@ -23,7 +22,7 @@ class HomepageViewModel @Inject constructor(
     private val fetchTrendingCoins: FetchTrendingCoins,
     private val mapper: CoinViewStateMapper,
     private val fetchCoinMarketChart: FetchCoinMarketChart,
-    private val fetchCoinList: FetchCoinList,
+    private val fetchCoinMarkets: FetchCoinMarkets,
     private val detailedMapper: DetailedToCoinViewStateMapper
 ): BaseViewModel() {
 

@@ -1,4 +1,4 @@
-package com.example.cryptotracker.presentation.coinList
+package com.example.cryptotracker.presentation.coinMarkets
 
 import android.content.Context
 import androidx.core.content.ContextCompat
