@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptotracker.R
 import com.example.cryptotracker.databinding.FragmentHomepageBinding
 import com.example.cryptotracker.presentation.base.BaseFragment
-import com.example.cryptotracker.presentation.common.CoinViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
@@ -28,6 +30,7 @@ class HomepageFragment : BaseFragment<FragmentHomepageBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        setupEventListener()
 
         viewModel.trendingCoins.observe(viewLifecycleOwner) {
             trendingAdapter.submitList(it)
@@ -45,6 +48,10 @@ class HomepageFragment : BaseFragment<FragmentHomepageBinding>() {
             buttonConvert.tvName.text = "Convert"
             titleTrendingCoins.tvTitle.text = "Trending Coins"
             titleTopCoins.tvTitle.text = "Top 10 Coins"
+
+            buttonCompare.root.setOnClickListener {
+                viewModel.onComparisonButtonClicked()
+            }
         }
 
         setupTrendingRecyclerView()
@@ -65,5 +72,18 @@ class HomepageFragment : BaseFragment<FragmentHomepageBinding>() {
             adapter = topCoinsAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
+    }
+
+    private fun setupEventListener() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.homepageEvent.collect { event ->
+                when(event) {
+                    is HomepageViewModel.HomepageEvent.NavigateComparisonScreen -> {
+                        findNavController().navigate(R.id.action_homepageFragment_to_coinComparisonFragment)
+                    }
+                }
+            }
+        }
+
     }
 }

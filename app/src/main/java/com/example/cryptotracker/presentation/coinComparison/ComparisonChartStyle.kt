@@ -8,8 +8,6 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -33,7 +31,7 @@ class ComparisonChartStyle @Inject constructor(
             setDrawGridLines(false)
             setDrawAxisLine(false)
             typeface = ResourcesCompat.getFont(context, R.font.acrom)
-            textColor = ContextCompat.getColor(context, R.color.blue)
+            textColor = ContextCompat.getColor(context, R.color.dark_blue)
         }
 
         xAxis.apply {
@@ -45,7 +43,7 @@ class ComparisonChartStyle @Inject constructor(
             position = XAxis.XAxisPosition.BOTTOM
 
             typeface = ResourcesCompat.getFont(context, R.font.acrom)
-            textColor = ContextCompat.getColor(context, R.color.dark)
+            textColor = ContextCompat.getColor(context, R.color.black)
         }
 
         setTouchEnabled(true)
@@ -71,8 +69,8 @@ class ComparisonChartStyle @Inject constructor(
     }
 
     fun styleSecondLineDataSet(lineDataSet: LineDataSet) = lineDataSet.apply {
-        color = ContextCompat.getColor(context, R.color.blue)
-        valueTextColor = ContextCompat.getColor(context, R.color.blue)
+        color = ContextCompat.getColor(context, R.color.light)
+        valueTextColor = ContextCompat.getColor(context, R.color.light)
         setDrawValues(false)
         lineWidth = 3f
         isHighlightEnabled = true

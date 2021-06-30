@@ -13,10 +13,12 @@ class CoinListRemoteDataSource @Inject constructor(
     private val apiService: ApiService
 ) : BaseRemoteDataSource() {
 
-    suspend fun getCoinList() : ApiResult<List<DetailedCoinDataModel>> = safeApiCall {
+    suspend fun getCoinList(page: Int, per_page: Int) : ApiResult<List<DetailedCoinDataModel>> = safeApiCall {
         val queries = HashMap<String , Any?>()
         queries["vs_currency"] = "usd"
         queries["sparkline"] = true
+        queries["per_page"] = per_page
+        queries["page"] = page
         apiService.getData(ApiName.COINS_LIST, queries = queries).toList()
     }
 

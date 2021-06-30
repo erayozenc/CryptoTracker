@@ -10,7 +10,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="16dp"
-        app:cardBackgroundColor="@color/blue_dark">
+        app:cardBackgroundColor="@color/dark_blue">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -32,6 +32,7 @@
                 tools:text="Close"
                 android:fontFamily="@font/acrom_bold"
                 android:textSize="16sp"
+                android:singleLine="true"
                 app:layout_constraintTop_toBottomOf="@id/ivIcon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/tvPrice"/>

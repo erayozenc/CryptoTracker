@@ -30,7 +30,8 @@ class DetailedCoinViewStateMapper @Inject constructor(
             color = if (domainModel.changePercent < 0) R.color.red else R.color.green,
             highestPrice24h = domainModel.highest24h.toString().toSplitCoinPrice(),
             lowestPrice24h = domainModel.lowest24h.toString().toSplitCoinPrice(),
-            sparkLineEntries = domainModel.sparklinePrices.mapIndexed { index, d -> Entry(index.toFloat(), d.toFloat()) }
+            sparkLineEntries = domainModel.sparklinePrices.mapIndexed { index, d -> Entry(index.toFloat(), d.toFloat()) },
+            isPriceIncreasing = domainModel.changePercent > 0
         )
 
     override fun mapList(domainList: List<DetailedCoinDomainModel>): List<DetailedCoinViewState> {

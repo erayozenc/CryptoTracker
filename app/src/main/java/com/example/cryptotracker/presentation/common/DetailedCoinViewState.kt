@@ -22,5 +22,6 @@ data class DetailedCoinViewState(
     val color: Int,
     val highestPrice24h: String,
     val lowestPrice24h: String,
-    val sparkLineEntries: List<Entry>
+    val sparkLineEntries: List<Entry>,
+    val isPriceIncreasing: Boolean
 ) : Parcelable

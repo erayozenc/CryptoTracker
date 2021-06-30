@@ -29,6 +29,9 @@ class HomepageViewModel @Inject constructor(
 
     private var currentBtcPrice = 0.0
 
+    private val homepageEventChannel = Channel<HomepageEvent>()
+    val homepageEvent = homepageEventChannel.receiveAsFlow()
+
     private val _trendingCoins : MutableLiveData<List<CoinViewState>> = MutableLiveData()
     val trendingCoins : LiveData<List<CoinViewState>> = _trendingCoins
 
@@ -46,11 +49,15 @@ class HomepageViewModel @Inject constructor(
                         }
             }
 
-            val job1 = async { getTopTenCoins().collect { _topCoins.postValue(it)} }
+            //val job1 = async { getTopTenCoins().collect { _topCoins.postValue(it)} }
             val job2 = async { getTrendingCoins().collect { _trendingCoins.postValue(it)} }
-            job1.await()
+            //job1.await()
             job2.await()
         }
+    }
+
+    fun onComparisonButtonClicked() = viewModelScope.launch {
+        homepageEventChannel.send(HomepageEvent.NavigateComparisonScreen)
     }
 
     private suspend fun getTrendingCoins() = fetchTrendingCoins
@@ -71,7 +78,7 @@ class HomepageViewModel @Inject constructor(
                 _snackbar.postValue(cause.message)
             }
 
-    private suspend fun getTopTenCoins() = fetchCoinList
+    /*private suspend fun getTopTenCoins() = fetchCoinList
             .execute()
             .map { resource ->
                 if (resource is Resource.Success) {
@@ -88,6 +95,10 @@ class HomepageViewModel @Inject constructor(
             .catch { cause: Throwable ->
                 _snackbar.postValue(cause.message)
                 println(cause.message)
-            }
+            }*/
+
+    sealed class HomepageEvent {
+        object NavigateComparisonScreen: HomepageEvent()
+    }
 
 }
