@@ -2,6 +2,7 @@ package com.example.cryptotracker.data.mapper
 
 import com.example.cryptotracker.data.DataMapper
 import com.example.cryptotracker.data.network.model.DetailedCoinDataModel
+import com.example.cryptotracker.data.network.model.Prices
 import com.example.cryptotracker.domain.model.DetailedCoinDomainModel
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class DetailedCoinMapper @Inject constructor()
             volume = dto.total_volume.orZero(),
             highest24h = dto.high_24h.orZero(),
             lowest24h = dto.low_24h.orZero(),
-            sparklinePrices = dto.sparkline_in_7d.price
+            sparklinePrices = dto.sparkline_in_7d?.price ?: listOf()
         )
 
     override fun mapList(dataList: List<DetailedCoinDataModel>): List<DetailedCoinDomainModel> {

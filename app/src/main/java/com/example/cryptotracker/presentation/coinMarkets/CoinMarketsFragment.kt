@@ -40,13 +40,13 @@ class CoinMarketsFragment : BaseFragment<FragmentCoinListBinding>(), CoinMarkets
         setupListeners()
         setupObservers()
         setupEventListener()
+        viewModel.onStart()
 
-        lifecycleScope.launch {
-            viewModel.fetchCoinList().collectLatest {
+        lifecycleScope.launchWhenCreated {
+            viewModel.coinList.collectLatest {
                 adapter.submitData(it)
             }
         }
-
     }
 
     private fun setupRecyclerView() {
@@ -65,19 +65,6 @@ class CoinMarketsFragment : BaseFragment<FragmentCoinListBinding>(), CoinMarkets
     }
 
     private fun setupObservers() {
-        lifecycleScope.launch {
-            viewModel.coinList.collectLatest {
-                adapter.apply {
-                    loadStateFlow
-                        .distinctUntilChangedBy { it.refresh }
-                        .filter { it.refresh is LoadState.NotLoading }
-                        .collect { binding.rvCoin.scrollToPosition(0) }
-
-                    submitData(it)
-                }
-            }
-        }
-
         viewModel.progressBar.observe(viewLifecycleOwner) { isProgress ->
             showDialog(isProgress)
         }

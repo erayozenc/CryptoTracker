@@ -26,22 +26,33 @@ class CoinMarketsViewModel @Inject constructor(
     private val sortEventChannel = Channel<SortEvent>()
     private val sortEvent = sortEventChannel.receiveAsFlow()
 
-    val coinList = sortEvent.flatMapLatest {event ->
-        fetchCoinMarkets.execute()
-            .map { pagingData ->
-                pagingData.map { mapper.map(it) }
-            }.cachedIn(viewModelScope)
+    val coinList = sortEvent.flatMapLatest { event ->
+        val order = when(event) {
+            is SortEvent.SortByMarketCap -> "market_cap_desc"
+            is SortEvent.SortByPercentChange -> "market_cap_desc"
+            is SortEvent.SortByPrice -> "market_cap_desc"
+            is SortEvent.SortByVolume -> "volume_desc"
+        }
+
+        fetchCoinMarkets.execute(
+            order = order,
+            hasSparkLineNeeded = true
+        ).map { pagingData ->
+            pagingData.map { mapper.map(it) }
+        }.cachedIn(viewModelScope)
     }
 
-    suspend fun fetchCoinList() = fetchCoinMarkets.execute()
-        .map { pagingData ->
+    suspend fun fetchCoinList() = fetchCoinMarkets
+        .execute(
+            order = "market_cap_desc",
+            hasSparkLineNeeded = true
+        ).map { pagingData ->
             pagingData.map { mapper.map(it) }
         }.cachedIn(viewModelScope)
 
-    init {
+    fun onStart() {
         onMarketCapFilter()
     }
-
     fun onCoinSelected(coin: DetailedCoinViewState) = viewModelScope.launch {
         coinsEventChannel.send(CoinsEvent.NavigateDetailScreen(coin))
     }

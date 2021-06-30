@@ -9,5 +9,8 @@ import javax.inject.Inject
 class FetchCoinMarkets @Inject constructor(
     private val repository: CoinMarketsRepository
 ) {
-    suspend fun execute(): Flow<PagingData<DetailedCoinDomainModel>> = repository.getCoinList()
+    suspend fun execute(
+        order: String,
+        hasSparkLineNeeded: Boolean
+    ): Flow<PagingData<DetailedCoinDomainModel>> = repository.getCoinList(order, hasSparkLineNeeded)
 }

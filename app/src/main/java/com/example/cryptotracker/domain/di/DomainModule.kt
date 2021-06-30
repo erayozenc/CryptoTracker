@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @Module
 object DomainModule {
 
-
     @Provides
     @Singleton
     fun provideCoinMarketsRepository(
@@ -91,7 +90,14 @@ object DomainModule {
             repository: TrendingCoinsRepository
     ) = FetchTrendingCoins(repository)
 
-
+    @Provides
+    @Singleton
+    fun provideTopTenCoinsRepository(
+        remoteDataSource: TopTenCoinsRemoteDataSource,
+        mapper : DetailedCoinMapper
+    ) : TopTenCoinsRepository {
+        return TopTenCoinsRepositoryImpl(remoteDataSource, mapper)
+    }
 
 
 }

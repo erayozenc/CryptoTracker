@@ -11,7 +11,7 @@ import com.example.cryptotracker.data.network.datasource.CoinMarketsRemoteDataSo
 import com.example.cryptotracker.domain.model.DetailedCoinDomainModel
 import com.example.cryptotracker.domain.repository.CoinMarketsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+
 import javax.inject.Inject
 
 class CoinMarketsRepositoryImpl @Inject constructor(
@@ -19,13 +19,23 @@ class CoinMarketsRepositoryImpl @Inject constructor(
     private val mapper: DetailedCoinMapper
 ) : CoinMarketsRepository {
 
-    override suspend fun getCoinList() : Flow<PagingData<DetailedCoinDomainModel>> {
+    override suspend fun getCoinList(
+        order: String,
+        hasSparkLineNeeded: Boolean
+    ) : Flow<PagingData<DetailedCoinDomainModel>> {
         return Pager(
-                config = PagingConfig(
-                        pageSize = 10,
-                        enablePlaceholders = false
-                ),
-                pagingSourceFactory = { CoinMarketsPagingSource(remoteDataSource, mapper)}
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                CoinMarketsPagingSource(
+                    remoteDataSource,
+                    mapper,
+                    order,
+                    hasSparkLineNeeded
+                )
+            }
         ).flow
     }
 

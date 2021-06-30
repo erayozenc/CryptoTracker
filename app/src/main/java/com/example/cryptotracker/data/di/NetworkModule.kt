@@ -105,4 +105,10 @@ object NetworkModule {
     @Singleton
     fun provideCoinMapper()= CoinMapper()
 
+    @Provides
+    @Singleton
+    fun provideTopTenCoinsRemoteDataSource(
+        apiService: ApiService
+    ) = TopTenCoinsRemoteDataSource(apiService)
+
 }

@@ -37,14 +37,14 @@ class SelectCoinViewModel @Inject constructor(
     }
 
     val coinList = searchFlow.flatMapLatest { event ->
-        fetchCoinMarkets.execute()
+        fetchCoinMarkets.execute("id_asc", false)
             .map { pagingData ->
                 pagingData.map { mapper.map(it) }
             }.cachedIn(viewModelScope)
     }
 
     suspend fun fetchCoinList() =
-        fetchCoinMarkets.execute()
+        fetchCoinMarkets.execute("id_asc", false)
         .map { pagingData ->
             pagingData.map { mapper.map(it) }
         }.cachedIn(viewModelScope)

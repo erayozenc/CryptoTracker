@@ -6,5 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface CoinMarketsRepository {
 
-    suspend fun getCoinList() : Flow<PagingData<DetailedCoinDomainModel>>
+    suspend fun getCoinList(
+        order: String,
+        hasSparkLineNeeded: Boolean
+    ) : Flow<PagingData<DetailedCoinDomainModel>>
 }

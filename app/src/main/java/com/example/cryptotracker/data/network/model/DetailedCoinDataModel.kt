@@ -17,5 +17,5 @@ data class DetailedCoinDataModel(
     val symbol: String?, //a
     val total_supply: Double?, //a
     val total_volume: Double?, //a
-    val sparkline_in_7d: Prices
+    val sparkline_in_7d: Prices?
 )

@@ -9,13 +9,14 @@ import javax.inject.Inject
 
 class CoinMarketsPagingSource @Inject constructor(
     private val remoteDataSource: CoinMarketsRemoteDataSource,
-    private val mapper: DetailedCoinMapper
+    private val mapper: DetailedCoinMapper,
+    private val order: String,
+    private val hasSparkLineNeeded: Boolean
 ): PagingSource<Int, DetailedCoinDomainModel>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DetailedCoinDomainModel> {
         val position = params.key ?: STARTING_PAGE_INDEX
-
-        val result = remoteDataSource.getCoinList(position, params.loadSize)
+        val result = remoteDataSource.getCoinList(position, params.loadSize, order, hasSparkLineNeeded)
 
         return when(result) {
             is ApiResult.Success -> {
