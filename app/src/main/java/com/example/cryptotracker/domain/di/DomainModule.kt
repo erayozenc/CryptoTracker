@@ -2,17 +2,11 @@ package com.example.cryptotracker.domain.di
 
 import com.example.cryptotracker.data.local.datasource.CoinListDataSource
 import com.example.cryptotracker.data.mapper.*
-import com.example.cryptotracker.data.network.datasource.CoinDetailRemoteDataSource
-import com.example.cryptotracker.data.network.datasource.CoinListRemoteDataSource
-import com.example.cryptotracker.data.network.datasource.TrendingCoinsRemoteDataSource
-import com.example.cryptotracker.data.repository.CoinDetailRepositoryImpl
-import com.example.cryptotracker.data.repository.CoinListRepositoryImpl
-import com.example.cryptotracker.data.repository.TrendingCoinsRepositoryImpl
-import com.example.cryptotracker.domain.repository.CoinDetailRepository
-import com.example.cryptotracker.domain.repository.CoinListRepository
-import com.example.cryptotracker.domain.repository.TrendingCoinsRepository
+import com.example.cryptotracker.data.network.datasource.*
+import com.example.cryptotracker.data.repository.*
+import com.example.cryptotracker.domain.repository.*
 import com.example.cryptotracker.domain.usecase.*
-import com.example.cryptotracker.presentation.coinList.DetailedCoinViewStateMapper
+import com.example.cryptotracker.presentation.coinMarkets.DetailedCoinViewStateMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,33 +20,42 @@ object DomainModule {
 
     @Provides
     @Singleton
-    fun provideCoinListRepository(
-            remoteDataSource: CoinListRemoteDataSource,
-            dataSource: CoinListDataSource,
-            mapper : DetailedCoinMapper,
-            entityMapper: CoinEntityMapper,
-            entityToDomainMapper: CoinEntityToDomainMapper
-    ) : CoinListRepository {
-        return CoinListRepositoryImpl(remoteDataSource, dataSource, mapper, entityMapper, entityToDomainMapper)
+    fun provideCoinMarketsRepository(
+        remoteDataSource: CoinMarketsRemoteDataSource,
+        mapper : DetailedCoinMapper
+    ) : CoinMarketsRepository {
+        return CoinMarketsRepositoryImpl(remoteDataSource, mapper)
     }
 
     @Provides
     @Singleton
+    fun provideCoinListRepository(
+        remoteDataSource: CoinListRemoteDataSource,
+        mapper : CoinMapper,
+    ) : CoinListRepository {
+        return CoinListRepositoryImpl(remoteDataSource, mapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinRepository(
+        remoteDataSource: CoinRemoteDataSource,
+        mapper : CoinMapper,
+    ) : CoinRepository {
+        return CoinRepositoryImpl(remoteDataSource, mapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFetchCoin(
+        repository: CoinRepository
+    ) = FetchCoin(repository)
+
+    @Provides
+    @Singleton
     fun provideFetchCoinList(
-        repository: CoinListRepository
-    ) = FetchCoinList(repository)
-
-    @Provides
-    @Singleton
-    fun provideGetCoinListFromDatabase(
-            repository: CoinListRepository
-    ) = GetCoinListFromDatabase(repository)
-
-    @Provides
-    @Singleton
-    fun provideGetCoinFromDatabase(
-            repository: CoinListRepository
-    ) = GetCoinFromDatabase(repository)
+        repository: CoinMarketsRepository
+    ) = FetchCoinMarkets(repository)
 
     @Provides
     @Singleton
@@ -87,5 +90,8 @@ object DomainModule {
     fun provideFetchTrendingCoins(
             repository: TrendingCoinsRepository
     ) = FetchTrendingCoins(repository)
+
+
+
 
 }

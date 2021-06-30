@@ -1,9 +1,9 @@
-package com.example.cryptotracker.presentation.coinList
+package com.example.cryptotracker.presentation.coinMarkets
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.cryptotracker.domain.usecase.FetchCoinList
+import com.example.cryptotracker.domain.usecase.FetchCoinMarkets
 import com.example.cryptotracker.presentation.base.BaseViewModel
 import com.example.cryptotracker.presentation.common.DetailedCoinViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class CoinListViewModel @Inject constructor(
-    private val fetchCoinList: FetchCoinList,
+class CoinMarketsViewModel @Inject constructor(
+    private val fetchCoinMarkets: FetchCoinMarkets,
     private val mapper : DetailedCoinViewStateMapper
 ) : BaseViewModel() {
 
@@ -26,23 +26,20 @@ class CoinListViewModel @Inject constructor(
     private val sortEventChannel = Channel<SortEvent>()
     private val sortEvent = sortEventChannel.receiveAsFlow()
 
-    val coinList = sortEvent.flatMapLatest { event ->
-        fetchCoinList.execute()
+    val coinList = sortEvent.flatMapLatest {event ->
+        fetchCoinMarkets.execute()
             .map { pagingData ->
-                /*val dataModelList = when(event) {
-                    SortEvent.SortByRank -> {  }
-                    SortEvent.SortByVolume -> { resource.data.sortedByDescending { it.volume } }
-                    SortEvent.SortByMarketCap -> { resource.data.sortedByDescending { it.marketCap } }
-                    SortEvent.SortByPercentChange -> { resource.data.sortedByDescending { it.changePercent } }
-                    SortEvent.SortByPrice -> { resource.data.sortedByDescending { it.price } }
-                }*/
                 pagingData.map { mapper.map(it) }
-            }
-            .cachedIn(viewModelScope)
+            }.cachedIn(viewModelScope)
     }
 
+    suspend fun fetchCoinList() = fetchCoinMarkets.execute()
+        .map { pagingData ->
+            pagingData.map { mapper.map(it) }
+        }.cachedIn(viewModelScope)
+
     init {
-        onRankSort()
+        onMarketCapFilter()
     }
 
     fun onCoinSelected(coin: DetailedCoinViewState) = viewModelScope.launch {
@@ -65,10 +62,6 @@ class CoinListViewModel @Inject constructor(
         sortEventChannel.send(SortEvent.SortByVolume)
     }
 
-    private fun onRankSort() = viewModelScope.launch {
-        sortEventChannel.send(SortEvent.SortByRank)
-    }
-
     sealed class CoinsEvent {
         data class NavigateDetailScreen(val coin: DetailedCoinViewState): CoinsEvent()
     }
@@ -78,7 +71,6 @@ class CoinListViewModel @Inject constructor(
         object SortByPercentChange : SortEvent()
         object SortByPrice : SortEvent()
         object SortByVolume : SortEvent()
-        object SortByRank : SortEvent()
     }
 
 

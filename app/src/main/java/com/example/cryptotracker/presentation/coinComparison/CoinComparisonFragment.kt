@@ -32,7 +32,7 @@ class CoinComparisonFragment : BaseFragment<FragmentCoinComparisonBinding>() {
     lateinit var chartStyle : ComparisonChartStyle
 
     override fun createViewBinding(inflater: LayoutInflater, container: ViewGroup?) =
-            FragmentCoinComparisonBinding.inflate(inflater, container, false)
+        FragmentCoinComparisonBinding.inflate(inflater, container, false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

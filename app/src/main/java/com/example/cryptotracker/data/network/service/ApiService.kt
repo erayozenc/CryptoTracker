@@ -15,7 +15,7 @@ interface ApiService {
     suspend fun getData(
             @Url url: String,
             @QueryMap queries:  Map<String, @JvmSuppressWildcards Any?>? = null,
-            @Header("Authorization") token: String? = null,
+            @Header("Authorization") token: String? = null
     ) : ResponseBody
 
 

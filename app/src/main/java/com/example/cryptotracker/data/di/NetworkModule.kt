@@ -8,9 +8,7 @@ import com.example.cryptotracker.data.mapper.DetailedCoinMapper
 import com.example.cryptotracker.data.mapper.CoinMarketChartMapper
 import com.example.cryptotracker.data.network.service.ApiService
 import com.example.cryptotracker.data.network.NetworkConstant
-import com.example.cryptotracker.data.network.datasource.CoinDetailRemoteDataSource
-import com.example.cryptotracker.data.network.datasource.CoinListRemoteDataSource
-import com.example.cryptotracker.data.network.datasource.TrendingCoinsRemoteDataSource
+import com.example.cryptotracker.data.network.datasource.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -67,9 +65,21 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideCoinMarketsRemoteDataSource(
+        apiService: ApiService
+    ) = CoinMarketsRemoteDataSource(apiService)
+
+    @Provides
+    @Singleton
     fun provideCoinListRemoteDataSource(
         apiService: ApiService
     ) = CoinListRemoteDataSource(apiService)
+
+    @Provides
+    @Singleton
+    fun provideCoinRemoteDataSource(
+        apiService: ApiService
+    ) = CoinRemoteDataSource(apiService)
 
     @Provides
     @Singleton
@@ -83,7 +93,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCoinMarketChartMapper( )= CoinMarketChartMapper()
+    fun provideCoinMarketChartMapper()= CoinMarketChartMapper()
 
     @Provides
     @Singleton
@@ -93,6 +103,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCoinMapper( )= CoinMapper()
+    fun provideCoinMapper()= CoinMapper()
 
 }

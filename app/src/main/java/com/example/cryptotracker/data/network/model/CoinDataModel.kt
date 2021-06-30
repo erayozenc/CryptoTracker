@@ -1,15 +1,15 @@
 package com.example.cryptotracker.data.network.model
 
 data class CoinDataModel(
-    val coin_id: Int?,
-    val id: String?,
-    val large: String?,
-    val market_cap_rank: Int?,
-    val name: String?,
-    val price_btc: Double?,
-    val score: Int?,
-    val slug: String?,
-    val small: String?,
-    val symbol: String?,
-    val thumb: String?
+    val coin_id: Int? = null,
+    val id: String? = null,
+    val large: String? = null,
+    val market_cap_rank: Int? = null,
+    val name: String? = null ,
+    val price_btc: Double? = null,
+    val score: Int? = null,
+    val slug: String? = null,
+    val small: String? = null,
+    val symbol: String? = null,
+    val thumb: String? = null
 )

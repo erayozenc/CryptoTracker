@@ -1,20 +1,20 @@
-package com.example.cryptotracker.presentation.coinList
+package com.example.cryptotracker.presentation.coinMarkets
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptotracker.databinding.ItemListingCoinBinding
+import com.example.cryptotracker.presentation.common.CoinComparator
 import com.example.cryptotracker.presentation.common.DetailedCoinViewState
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 
-class CoinListAdapter(private val listener: OnItemClickListener)
-    : PagingDataAdapter<DetailedCoinViewState, CoinListAdapter.CoinViewHolder>(CoinComparator) {
+class CoinMarketsAdapter(private val listener: OnItemClickListener)
+    : PagingDataAdapter<DetailedCoinViewState, CoinMarketsAdapter.CoinViewHolder>(CoinComparator) {
 
     inner class CoinViewHolder(
         private val binding: ItemListingCoinBinding,
@@ -66,11 +66,5 @@ class CoinListAdapter(private val listener: OnItemClickListener)
         fun onItemClick(coin: DetailedCoinViewState)
     }
 
-    object CoinComparator : DiffUtil.ItemCallback<DetailedCoinViewState>() {
-        override fun areItemsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState) =
-            oldItem.symbol == newItem.symbol
 
-        override fun areContentsTheSame(oldItem: DetailedCoinViewState, newItem: DetailedCoinViewState) =
-            oldItem.hashCode() == newItem.hashCode()
-    }
 }

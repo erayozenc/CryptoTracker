@@ -3,12 +3,12 @@ package com.example.cryptotracker.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.cryptotracker.data.mapper.DetailedCoinMapper
-import com.example.cryptotracker.data.network.datasource.CoinListRemoteDataSource
+import com.example.cryptotracker.data.network.datasource.CoinMarketsRemoteDataSource
 import com.example.cryptotracker.domain.model.DetailedCoinDomainModel
 import javax.inject.Inject
 
-class CoinListPagingSource @Inject constructor(
-    private val remoteDataSource: CoinListRemoteDataSource,
+class CoinMarketsPagingSource @Inject constructor(
+    private val remoteDataSource: CoinMarketsRemoteDataSource,
     private val mapper: DetailedCoinMapper
 ): PagingSource<Int, DetailedCoinDomainModel>() {
 
