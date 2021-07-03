@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
+import com.example.cryptotracker.data.local.LocalConstant.COIN_DATABASE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -17,7 +18,7 @@ class AppPreferences @Inject constructor(
 ) : PreferenceStorage {
 
     private val dataStore: DataStore<Preferences> =
-        context.createDataStore(name= "AppPreferences")
+        context.createDataStore(name= COIN_DATABASE_NAME)
 
 
     private object PreferencesKey {

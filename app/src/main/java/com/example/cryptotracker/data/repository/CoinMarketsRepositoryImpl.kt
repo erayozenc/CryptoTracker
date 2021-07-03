@@ -3,9 +3,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.cryptotracker.data.CoinMarketsPagingSource
-import com.example.cryptotracker.data.local.datasource.CoinListDataSource
-import com.example.cryptotracker.data.mapper.CoinEntityMapper
-import com.example.cryptotracker.data.mapper.CoinEntityToDomainMapper
 import com.example.cryptotracker.data.mapper.DetailedCoinMapper
 import com.example.cryptotracker.data.network.datasource.CoinMarketsRemoteDataSource
 import com.example.cryptotracker.domain.model.DetailedCoinDomainModel
