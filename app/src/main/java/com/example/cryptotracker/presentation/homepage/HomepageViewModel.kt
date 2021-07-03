@@ -60,7 +60,7 @@ class HomepageViewModel @Inject constructor(
                     getTrendingCoins().collect { _trendingCoins.postValue(it)}
                 }
             }
-            
+
             job2.await()
 
         }

@@ -45,3 +45,18 @@ fun Double.toSplitChangeRate() : String {
     } else
         splittedString[0]
 }
+
+fun Float.toSplitCoinPrice() : String {
+    val splittedString = this.toString().split(".")
+
+    return if (splittedString.size > 1) {
+
+        if (splittedString[1].length > 1)
+            splittedString[0] + "." + splittedString[1].subSequence(0, 2)
+        else if (splittedString[1].length == 1 )
+            splittedString[0] + "." + splittedString[1]+ "0"
+        else
+            splittedString[0] + ".00"
+    } else
+        splittedString[0]
+}

@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.example.cryptotracker.R
+import com.example.cryptotracker.presentation.util.toSplitCoinPrice
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -24,6 +26,7 @@ class ComparisonChartStyle @Inject constructor(
             setDrawAxisLine(false)
             typeface = ResourcesCompat.getFont(context, R.font.acrom)
             textColor = ContextCompat.getColor(context, R.color.grey_light)
+            valueFormatter = PriceValueFormatter()
         }
 
         axisRight.apply {
@@ -32,6 +35,7 @@ class ComparisonChartStyle @Inject constructor(
             setDrawAxisLine(false)
             typeface = ResourcesCompat.getFont(context, R.font.acrom)
             textColor = ContextCompat.getColor(context, R.color.dark_blue)
+            valueFormatter = PriceValueFormatter()
         }
 
         xAxis.apply {
@@ -81,5 +85,10 @@ class ComparisonChartStyle @Inject constructor(
         axisDependency = YAxis.AxisDependency.RIGHT
     }
 
+    private class PriceValueFormatter : ValueFormatter() {
+        override fun getFormattedValue(value: Float): String {
+            return value.toSplitCoinPrice()
+        }
+    }
 
 }
